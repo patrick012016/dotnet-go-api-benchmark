@@ -1,8 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Jit", "Api.Jit\Api.Jit.csproj", "{24895BED-F5A1-47BA-A6B1-FE6A93D49C85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Aot", "Api.Aot\Api.Aot.csproj", "{6E007D31-9EF7-4D68-BFF7-8348388E4DD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24895BED-F5A1-47BA-A6B1-FE6A93D49C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24895BED-F5A1-47BA-A6B1-FE6A93D49C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24895BED-F5A1-47BA-A6B1-FE6A93D49C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24895BED-F5A1-47BA-A6B1-FE6A93D49C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E007D31-9EF7-4D68-BFF7-8348388E4DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E007D31-9EF7-4D68-BFF7-8348388E4DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E007D31-9EF7-4D68-BFF7-8348388E4DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E007D31-9EF7-4D68-BFF7-8348388E4DD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
