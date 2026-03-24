@@ -12,3 +12,8 @@ Accept: application/json
 
 GET {{ApiAot_HostAddress}}/openapi/v1.json
 Accept: application/json
+
+###
+
+GET {{ApiAot_HostAddress}}/scenario-01/user-profile/1
+Accept: application/json
