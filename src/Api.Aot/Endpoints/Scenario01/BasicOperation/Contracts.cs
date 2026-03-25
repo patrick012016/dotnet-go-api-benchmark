@@ -6,5 +6,5 @@ public readonly record struct GetUserProfileResponse(
     string LastName,
     string Email,
     string Role,
-    DateTime CreatedAt
+    DateTimeOffset CreatedAt
 );

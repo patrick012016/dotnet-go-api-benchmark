@@ -38,7 +38,7 @@ public static class GetUserProfileEndpoint
                         LastName: "Doe",
                         Email: $"john.doe.{id}@example.com",
                         Role: "Admin",
-                        CreatedAt: DateTime.UtcNow
+                        CreatedAt: DateTimeOffset.UtcNow
                     );
 
                     return TypedResults.Ok(user);
