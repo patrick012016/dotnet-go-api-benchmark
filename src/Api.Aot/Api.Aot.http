@@ -1,19 +1,10 @@
 @ApiAot_HostAddress = http://localhost:5095
-
-GET {{ApiAot_HostAddress}}/todos/
-Accept: application/json
-
-###
-
-GET {{ApiAot_HostAddress}}/todos/3
-Accept: application/json
-
-###
+@ApiAotHttps_HostAddress = https://localhost:5096
 
 GET {{ApiAot_HostAddress}}/openapi/v1.json
 Accept: application/json
 
 ###
 
-GET {{ApiAot_HostAddress}}/scenario-01/user-profile/1
+GET {{ApiAotHttps_HostAddress}}/scenario-01/user-profile/1
 Accept: application/json
