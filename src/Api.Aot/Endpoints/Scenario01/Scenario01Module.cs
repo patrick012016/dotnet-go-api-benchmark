@@ -1,4 +1,5 @@
 using Api.Aot.Endpoints.Scenario01.BasicOperation;
+using Api.Aot.Endpoints.Scenario01.PartialUpdate;
 
 namespace Api.Aot.Endpoints.Scenario01;
 
@@ -11,5 +12,6 @@ public static class Scenario01Module
 
 
         scenarioGroup.MapGetUserProfile();
+        scenarioGroup.MapPartialUpdate();
     }
 }

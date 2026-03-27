@@ -8,3 +8,13 @@ Accept: application/json
 
 GET {{ApiAotHttps_HostAddress}}/scenario-01/user-profile/1
 Accept: application/json
+
+###
+
+PATCH {{ApiAotHttps_HostAddress}}/scenario-01/orders/1
+Content-Type: application/json
+
+{
+  "status": "test",
+  "TotalValue": 12
+}
