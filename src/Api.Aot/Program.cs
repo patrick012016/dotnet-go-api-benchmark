@@ -1,10 +1,12 @@
 using Api.Aot.Endpoints.Scenario01;
+using Api.Aot.Endpoints.Scenario02;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, Scenario01JsonContext.Default);
+    options.SerializerOptions.TypeInfoResolverChain.Insert(0, Scenario02JsonContext.Default);
 });
 builder.WebHost.UseKestrelHttpsConfiguration();
 builder.Services.AddProblemDetails();
@@ -21,6 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapScenario01();
+app.MapScenario02();
 
 
 

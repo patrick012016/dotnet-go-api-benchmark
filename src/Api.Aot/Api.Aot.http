@@ -24,3 +24,8 @@ Content-Type: application/json
 
 GET {{ApiAotHttps_HostAddress}}/scenario-01/summary/0
 Accept: application/json
+
+###
+
+GET {{ApiAotHttps_HostAddress}}/scenario-02/ping
+Accept: application/json
