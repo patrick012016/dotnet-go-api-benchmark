@@ -1,4 +1,5 @@
 using Api.Aot.Endpoints.Scenario02.ServerlessColdStart;
+using Api.Aot.Endpoints.Scenario02.ThreadStarvation;
 
 namespace Api.Aot.Endpoints.Scenario02;
 
@@ -10,6 +11,7 @@ public static class Scenario02Module
             .WithTags("Scenario 02: Serverless case test");
 
 
-        scenarioGroup.MapPing(); 
+        scenarioGroup.MapPing();
+        scenarioGroup.MapConcurrencyTasks();
     }
 }
