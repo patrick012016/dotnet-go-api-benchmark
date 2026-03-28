@@ -1,4 +1,5 @@
 using Api.Jit.Endpoints.Scenario01;
+using Api.Jit.Endpoints.Scenario02;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapScenario01();
+app.MapScenario02();
 
 
 
