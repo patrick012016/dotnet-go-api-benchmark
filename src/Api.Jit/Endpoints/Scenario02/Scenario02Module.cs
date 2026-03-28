@@ -1,4 +1,5 @@
 using Api.Jit.Endpoints.Scenario02.ServerlessColdStart;
+using Api.Jit.Endpoints.Scenario02.ThreadStarvation;
 
 namespace Api.Jit.Endpoints.Scenario02;
 
@@ -11,5 +12,6 @@ public static class Scenario02Module
 
 
         scenarioGroup.MapPing();
+        scenarioGroup.MapConcurrencyTasks();
     }
 }

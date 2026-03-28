@@ -29,3 +29,8 @@ Accept: application/json
 
 GET {{ApiJitHttps_HostAddress}}/scenario-02/ping
 Accept: application/json
+
+###
+
+GET {{ApiJitHttps_HostAddress}}/scenario-02/concurrent-tasks
+Accept: application/json
