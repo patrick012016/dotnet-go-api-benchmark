@@ -18,3 +18,9 @@ Content-Type: application/json
   "status": "test",
   "TotalValue": 12
 }
+
+
+###
+
+GET {{ApiAotHttps_HostAddress}}/scenario-01/summary/0
+Accept: application/json

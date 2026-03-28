@@ -1,3 +1,4 @@
+using Api.Aot.Endpoints.Scenario01.AggregationBff;
 using Api.Aot.Endpoints.Scenario01.BasicOperation;
 using Api.Aot.Endpoints.Scenario01.PartialUpdate;
 
@@ -13,5 +14,6 @@ public static class Scenario01Module
 
         scenarioGroup.MapGetUserProfile();
         scenarioGroup.MapPartialUpdate();
+        scenarioGroup.MapBffAggregation();
     }
 }
