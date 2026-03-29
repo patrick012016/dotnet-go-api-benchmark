@@ -40,4 +40,4 @@ USER $APP_UID
 EXPOSE 8080
 
 # Launch the application
-ENTRYPOINT ["dotnet", "Api.Jit.dll"]
+ENTRYPOINT ["dotnet", "Api.Aot.dll"]
