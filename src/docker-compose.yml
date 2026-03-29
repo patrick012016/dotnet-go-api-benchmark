@@ -13,7 +13,7 @@ services:
       context: ./Api.Aot
       dockerfile: Dockerfile
     ports:
-      - "5555:8080"
+      - "45555:8080"
     restart: always
     networks:
       - backend-net
@@ -38,7 +38,7 @@ services:
       context: ./Api.Jit
       dockerfile: Dockerfile
     ports:
-      - "6666:8080"
+      - "46666:8080"
     restart: always
     networks:
       - backend-net
