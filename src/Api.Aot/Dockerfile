@@ -2,6 +2,11 @@
 # Get build tools (SDK)
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build-env
 
+# Installing system dependencies for Native AOT (clang and zlib, C++ compiler and linker tools)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       clang zlib1g-dev
+
 # Set working directory
 WORKDIR /app
 
@@ -20,8 +25,8 @@ RUN dotnet publish -c Release -o /app/out --no-restore
 
 # --- STAGE 2: RUNTIME ---
 
-# Use lightweight runtime (no SDK)
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+# Use OS dependencies only (NO .NET runtime, NO SDK) for self-contained/AOT apps
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0
 
 # Set working directory
 WORKDIR /app
@@ -40,4 +45,4 @@ USER $APP_UID
 EXPOSE 8080
 
 # Launch the application
-ENTRYPOINT ["dotnet", "Api.Aot.dll"]
+ENTRYPOINT ["./Api.Aot"]
