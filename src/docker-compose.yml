@@ -1,0 +1,46 @@
+services:
+  api-aot:
+    container_name: api-aot-service
+    build:
+      context: ./Api.Aot
+      dockerfile: Dockerfile
+    ports:
+      - "5555:8080"
+    restart: always
+    networks:
+      - backend-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  api-jit:
+    container_name: api-jit-service
+    build:
+      context: ./Api.Jit
+      dockerfile: Dockerfile
+    ports:
+      - "6666:8080"
+    restart: always
+    networks:
+      - backend-net
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          memory: 512M
+
+networks:
+  backend-net:
+    driver: bridge
+
+logging:
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "3"
