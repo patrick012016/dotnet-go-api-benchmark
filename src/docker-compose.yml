@@ -16,7 +16,7 @@ services:
       - "5555:8080"
     restart: always
     networks:
-      - aot-net
+      - backend-net
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -41,7 +41,7 @@ services:
       - "6666:8080"
     restart: always
     networks:
-      - jit-net
+      - backend-net
     security_opt:
       - no-new-privileges:true
     cap_drop:
