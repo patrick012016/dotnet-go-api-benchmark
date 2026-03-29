@@ -8,13 +8,13 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, Scenario01JsonContext.Default);
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, Scenario02JsonContext.Default);
 });
-builder.WebHost.UseKestrelHttpsConfiguration();
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-app.UseHttpsRedirection();
+
 app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())

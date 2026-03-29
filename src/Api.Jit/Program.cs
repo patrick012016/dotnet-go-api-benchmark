@@ -13,7 +13,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-app.UseHttpsRedirection();
+
 app.UseStatusCodePages();
 
 if (app.Environment.IsDevelopment())

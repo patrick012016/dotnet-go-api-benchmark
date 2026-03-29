@@ -6,12 +6,12 @@ Accept: application/json
 
 ###
 
-GET {{ApiAotHttps_HostAddress}}/scenario-01/user-profile/1
+GET {{ApiAot_HostAddress}}/scenario-01/user-profile/1
 Accept: application/json
 
 ###
 
-PATCH {{ApiAotHttps_HostAddress}}/scenario-01/orders/1
+PATCH {{ApiAot_HostAddress}}/scenario-01/orders/1
 Content-Type: application/json
 
 {
@@ -22,15 +22,15 @@ Content-Type: application/json
 
 ###
 
-GET {{ApiAotHttps_HostAddress}}/scenario-01/summary/0
+GET {{ApiAot_HostAddress}}/scenario-01/summary/0
 Accept: application/json
 
 ###
 
-GET {{ApiAotHttps_HostAddress}}/scenario-02/ping
+GET {{ApiAot_HostAddress}}/scenario-02/ping
 Accept: application/json
 
 ###
 
-GET {{ApiAotHttps_HostAddress}}/scenario-02/concurrent-tasks
+GET {{ApiAot_HostAddress}}/scenario-02/concurrent-tasks
 Accept: application/json
