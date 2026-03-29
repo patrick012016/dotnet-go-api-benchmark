@@ -1,6 +1,8 @@
 services:
   api-aot:
+    image: dotnet-benchmark/api-aot:v1.0.0
     container_name: api-aot-service
+
     build:
       context: ./Api.Aot
       dockerfile: Dockerfile
@@ -8,7 +10,12 @@ services:
       - "5555:8080"
     restart: always
     networks:
-      - backend-net
+      - aot-net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
     deploy:
       resources:
         limits:
@@ -18,7 +25,9 @@ services:
           memory: 512M
 
   api-jit:
+    image: dotnet-benchmark/api-jit:v1.0.0
     container_name: api-jit-service
+
     build:
       context: ./Api.Jit
       dockerfile: Dockerfile
@@ -26,7 +35,12 @@ services:
       - "6666:8080"
     restart: always
     networks:
-      - backend-net
+      - jit-net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
     deploy:
       resources:
         limits:
