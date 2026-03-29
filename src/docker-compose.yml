@@ -1,3 +1,9 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "3"
+
 services:
   api-aot:
     image: dotnet-benchmark/api-aot:v1.0.0
@@ -52,9 +58,3 @@ services:
 networks:
   backend-net:
     driver: bridge
-
-logging:
-  driver: "json-file"
-  options:
-    max-size: "50m"
-    max-file: "3"
