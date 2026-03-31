@@ -6,14 +6,15 @@ x-logging: &default-logging
 
 services:
   api-aot:
-    image: dotnet-benchmark/api-aot:v1.0.0
+    image: dotnet-benchmark/api-aot:${IMAGE_TAG:-latest}
     container_name: api-aot-service
-
+    logging: *default-logging
+    
     build:
       context: ./Api.Aot
       dockerfile: Dockerfile
     ports:
-      - "45555:8080"
+      - "${API_AOT_PORT:-45555}:8080"
     restart: always
     networks:
       - backend-net
@@ -21,6 +22,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
 
     deploy:
       resources:
@@ -31,14 +35,15 @@ services:
           memory: 512M
 
   api-jit:
-    image: dotnet-benchmark/api-jit:v1.0.0
+    image: dotnet-benchmark/api-jit:${IMAGE_TAG:-latest}
     container_name: api-jit-service
-
+    logging: *default-logging
+    
     build:
       context: ./Api.Jit
       dockerfile: Dockerfile
     ports:
-      - "46666:8080"
+      - "${API_JIT_PORT:-46666}:8080"
     restart: always
     networks:
       - backend-net
@@ -46,6 +51,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
 
     deploy:
       resources:
