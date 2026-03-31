@@ -4,5 +4,11 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 
+# Ignore user settings configuration
 .idea/
 *.DotSettings.user
+
+# Ignore .env files
+.env
+*.env
+.env.*
