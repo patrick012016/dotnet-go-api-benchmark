@@ -93,6 +93,7 @@ jobs:
       #  Budowanie i uruchamianie obrazów Docker na podstawie docker-compose.yml
       #  Building and run Docker images based on docker-compose.yml
       - name: Build Docker images
+        working-directory: ./src
         env:
           IMAGE_TAG: ${{ inputs.version || 'latest'}}
           API_AOT_PORT: ${{ secrets.API_AOT_PORT }}
@@ -101,6 +102,7 @@ jobs:
         run: docker compose build
 
       - name: Run containers
+        working-directory: ./src
         env:
           IMAGE_TAG: ${{ inputs.version || 'latest'}}
           API_AOT_PORT: ${{ secrets.API_AOT_PORT }}
@@ -111,6 +113,7 @@ jobs:
       #  Zrzut logów kontenerów (uruchamiany nawet, jeśli Healthcheck zgłosi błąd)
       #  Dumping container logs (runs even if the Healthcheck fails)
       - name: Export Docker logs
+        working-directory: ./src
         if: failure()
         run: docker compose logs > infrastructure-logs.txt
 
