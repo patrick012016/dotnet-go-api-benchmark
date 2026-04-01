@@ -24,12 +24,6 @@ on:
 permissions:
   contents: read
 
-#  Globalne zmienne środowiskowe i ścieżki
-#  Global environment variables and paths
-env:
-  AOT_PROJECT_PATH: "./Api.Aot"
-  JIT_PROJECT_PATH: "./Api.Jit"
-
 jobs:
   # ----------------------------------------------------------------
   #  ETAP 1: Budowanie i testy 
@@ -46,9 +40,9 @@ jobs:
         project: [ Api.Aot, Api.Jit ]
         include:
           - project: Api.Aot
-            path: ${{ env.AOT_PROJECT_PATH }}
+            path: "./Api.Aot"
           - project: Api.Jit
-            path: ${{ env.JIT_PROJECT_PATH }}
+            path: "./Api.Jit"
 
     steps:
       - name: Checkout code
