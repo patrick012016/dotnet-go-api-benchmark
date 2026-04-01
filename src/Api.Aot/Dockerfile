@@ -35,7 +35,6 @@ WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Copy built files from Stage 1
-
 COPY --from=build-env /app/out .
 
 # Run as non-root user (security)
