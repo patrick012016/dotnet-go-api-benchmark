@@ -1,0 +1,130 @@
+name: .NET GO API CI/CD and release pipeline
+
+on:
+  #  Uruchom automatycznie przy wrzuceniu kodu na gałąź main
+  #  Trigger automatically on push to the main branch
+  push:
+    branches: [ "main" ]
+  
+  #  Uruchom przy otwarciu Pull Requesta, aby sprawdzić zmiany przed scaleniem
+  #  Trigger on Pull Request to verify changes before merging
+  pull_request:
+    branches: [ "main" ]
+  
+  #  Pozwala ręcznie uruchomić workflow i wygenerować wydanie aplikacji
+  #  Allows manual workflow trigger to generate an application Release
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version example (1.0.0)"
+        required: true
+        default: "1.0.0"
+        type: string
+
+permissions:
+  contents: read
+
+#  Globalne zmienne środowiskowe i ścieżki
+#  Global environment variables and paths
+env:
+  AOT_PROJECT_PATH: "./Api.Aot"
+  JIT_PROJECT_PATH: "./Api.Jit"
+
+jobs:
+  # ----------------------------------------------------------------
+  #  ETAP 1: Budowanie i testy 
+  #  STAGE 1: Build and test
+  # ----------------------------------------------------------------
+  build-and-test:
+    name: Build and test (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    
+    strategy:
+      #  Macierz sprawia, że GitHub uruchamia to zadanie równolegle dla AOT i JIT
+      #  The matrix ensures GitHub runs this job in parallel for AOT and JIT
+      matrix:
+        project: [ Api.Aot, Api.Jit ]
+        include:
+          - project: Api.Aot
+            path: ${{ env.AOT_PROJECT_PATH }}
+          - project: Api.Jit
+            path: ${{ env.JIT_PROJECT_PATH }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      #  Pamięć podręczna dla pakietów NuGet przyspiesza kolejne buildy
+      #  Caching NuGet packages speeds up subsequent builds
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      #  Weryfikacja, czy kod kompiluje się bez błędów
+      #  Verification if the code compiles without errors
+      - name: Build project
+        working-directory: ${{ matrix.path }}
+        run: dotnet build -c Release
+
+  # ----------------------------------------------------------------
+  #  ETAP 2: Budowanie kontenerów Docker i weryfikacja
+  #  STAGE 2: Docker containers build and verification
+  # ----------------------------------------------------------------
+  docker-integration:
+    name: Docker build and run
+    
+    #  Wymaga, aby etap kompilacji zakończył się sukcesem
+    #  Requires the build stage to complete successfully
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    #  Rejestruje to jako "Wdrożenie" na GitHubie
+    #  Registers this as a "Deployment" on GitHub
+    environment:
+      name: Staging
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      #  Budowanie i uruchamianie obrazów Docker na podstawie docker-compose.yml
+      #  Building and run Docker images based on docker-compose.yml
+      - name: Build Docker images
+        env:
+          IMAGE_TAG: ${{ inputs.version || 'latest'}}
+          API_AOT_PORT: ${{ secrets.API_AOT_PORT }}
+          API_JIT_PORT: ${{ secrets.API_JIT_PORT }}
+
+        run: docker compose build
+
+      - name: Run containers
+        env:
+          IMAGE_TAG: ${{ inputs.version || 'latest'}}
+          API_AOT_PORT: ${{ secrets.API_AOT_PORT }}
+          API_JIT_PORT: ${{ secrets.API_JIT_PORT }}
+
+        run: docker compose up -d
+      
+      #  Zrzut logów kontenerów (uruchamiany nawet, jeśli Healthcheck zgłosi błąd)
+      #  Dumping container logs (runs even if the Healthcheck fails)
+      - name: Export Docker logs
+        if: failure()
+        run: docker compose logs > infrastructure-logs.txt
+
+      #  Zapisanie pliku logów jako artefaktu do późniejszej analizy
+      #  Saving the log file as an artifact for later analysis
+      - name: Upload logs artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Docker-Runtime-Logs
+          path: infrastructure-logs.txt
