@@ -40,9 +40,9 @@ jobs:
         project: [ Api.Aot, Api.Jit ]
         include:
           - project: Api.Aot
-            path: "./Api.Aot"
+            path: "./src/Api.Aot"
           - project: Api.Jit
-            path: "./Api.Jit"
+            path: "./src/Api.Jit"
 
     steps:
       - name: Checkout code
