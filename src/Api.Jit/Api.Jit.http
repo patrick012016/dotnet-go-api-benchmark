@@ -1,5 +1,4 @@
 @ApiJit_HostAddress = http://localhost:5263
-@ApiJitHttps_HostAddress = https://localhost:7014
 
 GET {{ApiJit_HostAddress}}/openapi/v1.json
 Accept: application/json

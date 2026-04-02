@@ -1,5 +1,4 @@
 @ApiAot_HostAddress = http://localhost:5095
-@ApiAotHttps_HostAddress = https://localhost:5096
 
 GET {{ApiAot_HostAddress}}/openapi/v1.json
 Accept: application/json
