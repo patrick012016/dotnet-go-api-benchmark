@@ -6,22 +6,22 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build-env
 WORKDIR /app
 
 # Copy project file (for caching)
-COPY *.csproj ./
+COPY ["*.csproj", "./"]
 
 # Restore NuGet packages
 RUN dotnet restore
 
 # Copy remaining source code
-COPY . ./
+COPY [".", "./"]
 
-# Build production-ready app (Release)
-RUN dotnet publish -c Release -o /app/out --no-restore
+# Build production-ready app (Release), UseAppHost=false only in JIT version
+RUN dotnet publish -c Release -o /app/out --no-restore /p:UseAppHost=false
 
 
 # --- STAGE 2: RUNTIME ---
 
-# Use lightweight runtime (no SDK)
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+# Use lightweight, secure runtime (no SDK) without shell (includes globalization/ICU dependencies)
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra
 
 # Set working directory
 WORKDIR /app
@@ -30,7 +30,7 @@ WORKDIR /app
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Copy built files from Stage 1
-COPY --from=build-env /app/out .
+COPY --from=build-env ["/app/out", "./"]
 
 # Run as non-root user (security)
 USER $APP_UID
