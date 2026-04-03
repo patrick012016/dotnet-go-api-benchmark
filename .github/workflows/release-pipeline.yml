@@ -5,11 +5,19 @@ on:
   #  Trigger automatically on push to the main branch
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - "**.md"
+      - "**/Dockerfile"
+      - ".github/workflows/**"
   
   #  Uruchom przy otwarciu Pull Requesta, aby sprawdzić zmiany przed scaleniem
   #  Trigger on Pull Request to verify changes before merging
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - "**.md"
+      - "**/Dockerfile"
+      - ".github/workflows/**"
   
   #  Pozwala ręcznie uruchomić workflow i wygenerować wydanie aplikacji
   #  Allows manual workflow trigger to generate an application Release
