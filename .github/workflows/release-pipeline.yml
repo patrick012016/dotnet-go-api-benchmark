@@ -71,11 +71,25 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      #  Weryfikacja, czy kod kompiluje się bez błędów
-      #  Verification if the code compiles without errors
-      - name: Build project
+      # Instalacja zależności dla AOT
+      # Installing dependencies for AOT 
+      - name: Install Native AOT Build Prerequisites (Linux)
+        if: ${{ matrix.project == 'Api.Aot' }}
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+
+      # Weryfikacja JIT: Pełny publish ze spójnymi flagami z Dockerfile
+      # JIT Verification: Full publish with consistent flags from Dockerfile
+      - name: Publish project (JIT)
+        if: ${{ matrix.project == 'Api.Jit' }}
         working-directory: ${{ matrix.path }}
-        run: dotnet build -c Release
+        run: dotnet publish -c Release -p:TreatWarningsAsErrors=true /p:UseAppHost=false
+
+      # Weryfikacja AOT: Pełny publish z weryfikacją trimowania
+      # AOT Verification: Full Publish with Trim Verification
+      - name: Publish and Verify AOT Compatibility
+        if: ${{ matrix.project == 'Api.Aot' }}
+        working-directory: ${{ matrix.path }}
+        run: dotnet publish -c Release -p:TreatWarningsAsErrors=true /p:PublishAot=true
 
   # ----------------------------------------------------------------
   #  ETAP 2: Budowanie kontenerów Docker i weryfikacja
