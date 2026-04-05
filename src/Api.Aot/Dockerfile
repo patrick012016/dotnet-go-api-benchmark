@@ -1,5 +1,5 @@
 ﻿# --- STAGE 1: BUILD ---
-# Get build tools (SDK)
+# Get build tools (SDK) with aot dependencies
 FROM mcr.microsoft.com/dotnet/sdk:10.0-aot AS build-env
 
 # Set working directory
