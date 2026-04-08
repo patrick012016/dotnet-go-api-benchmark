@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Aot", "Api.Aot\Api.Aot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Jit", "Api.Jit\Api.Jit.csproj", "{777FE19D-2F77-405D-A3C1-D3FB6C9DD55E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.TestUnit", "..\tests\Api.TestUnit\Api.TestUnit.csproj", "{2FE82E76-4FD0-4F14-B20D-0BB581C75D73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.UnitTest", "..\tests\Api.UnitTest\Api.UnitTest.csproj", "{2FE82E76-4FD0-4F14-B20D-0BB581C75D73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
