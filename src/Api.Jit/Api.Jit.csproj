@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Api.UnitTest" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
     </ItemGroup>
     
