@@ -60,12 +60,13 @@ jobs:
       
       # Uruchomienie testów MTP w konfiguracji Release wraz z generowaniem raportu pokrycia kodu
       # Run MTP tests in Release configuration with Cobertura code coverage
-      - name: Run Unit Tests
+      - name: Run unit tests
         run: |
           dotnet test ./tests/Api.UnitTest/Api.UnitTest.csproj \
           -c Release \
-          --logger "trx;LogFileName=test-results.trx" \
           --results-directory ./TestResults \
+          --logger "trx;LogFileName=test-results.trx" \
+          -- \
           --coverage \
           --coverage-output-format cobertura
       
