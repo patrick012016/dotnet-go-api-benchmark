@@ -34,11 +34,58 @@ permissions:
 
 jobs:
   # ----------------------------------------------------------------
-  #  ETAP 1: Budowanie i testy 
-  #  STAGE 1: Build and test
+  #  ETAP 1: Testy jednostkowe i code coverage
+  #  STAGE 1: Unit tests and code coverage
   # ----------------------------------------------------------------
-  build-and-test:
-    name: Build and test (${{ matrix.project }})
+  unit-tests:
+    name: Unit tests and code coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 10.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      
+      # Uruchomienie testów MTP w konfiguracji Release wraz z generowaniem raportu pokrycia kodu
+      # Run MTP tests in Release configuration with Cobertura code coverage
+      - name: Run Unit Tests
+        run: |
+          dotnet test ./tests/Api.UnitTest/Api.UnitTest.csproj \
+          -c Release \
+          --logger "trx;LogFileName=test-results.trx" \
+          --results-directory ./TestResults \
+          --coverage \
+          --coverage-output-format cobertura
+      
+      # Zapisanie wyników i pokrycia jako artefakty
+      # Saving results and coverage as artifacts
+      - name: Upload Test Results Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test-Results-And-Coverage
+          path: ./TestResults/
+          retention-days: 14
+  
+  # ----------------------------------------------------------------
+  #  ETAP 2: Publikacja i weryfikacja (AOT & JIT)
+  #  STAGE 2: Publish and verification
+  # ----------------------------------------------------------------
+  publish-verification:
+    name: Publish verify (${{ matrix.project }})
+    needs: unit-tests
     runs-on: ubuntu-latest
     
     strategy:
@@ -92,15 +139,15 @@ jobs:
         run: dotnet publish -c Release -p:TreatWarningsAsErrors=true /p:PublishAot=true
 
   # ----------------------------------------------------------------
-  #  ETAP 2: Budowanie kontenerów Docker i weryfikacja
-  #  STAGE 2: Docker containers build and verification
+  #  ETAP 3: Budowanie kontenerów Docker i weryfikacja
+  #  STAGE 3: Docker containers build and verification
   # ----------------------------------------------------------------
   docker-integration:
     name: Docker build and run
     
     #  Wymaga, aby etap kompilacji zakończył się sukcesem
     #  Requires the build stage to complete successfully
-    needs: build-and-test
+    needs: publish-verification
     runs-on: ubuntu-latest
     
     #  Rejestruje to jako "Wdrożenie" na GitHubie
