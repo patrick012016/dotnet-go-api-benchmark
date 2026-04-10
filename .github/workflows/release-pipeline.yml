@@ -64,19 +64,20 @@ jobs:
         run: |
           dotnet test ./tests/Api.UnitTest/Api.UnitTest.csproj \
           -c Release \
-          --results-directory ./TestResults \
-          --logger "trx;LogFileName=test-results.trx" \
           -- \
+          --results-directory ./TestResults \
+          --report-trx \
+          --report-trx-filename test-results.trx \
           --coverage \
           --coverage-output-format cobertura
       
       # Zapisanie wyników i pokrycia jako artefakty
       # Saving results and coverage as artifacts
-      - name: Upload Test Results Artifacts
+      - name: Upload test results artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Test-Results-And-Coverage
+          name: Test-results-and-coverage
           path: ./TestResults/
           retention-days: 14
   
