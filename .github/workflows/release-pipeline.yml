@@ -65,7 +65,7 @@ jobs:
           dotnet test ./tests/Api.UnitTest/Api.UnitTest.csproj \
           -c Release \
           -- \
-          --results-directory ./TestResults \
+          --results-directory ${{ github.workspace }}/TestResults \
           --report-trx \
           --report-trx-filename test-results.trx \
           --coverage \
@@ -78,7 +78,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Test-results-and-coverage
-          path: ./TestResults/
+          path: |
+            **/TestResults/
+            **/*.trx
+            **/*.cobertura.xml
           retention-days: 14
   
   # ----------------------------------------------------------------
