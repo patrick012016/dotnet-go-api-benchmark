@@ -69,7 +69,8 @@ jobs:
           --report-trx \
           --report-trx-filename test-results.trx \
           --coverage \
-          --coverage-output-format cobertura
+          --coverage-output-format cobertura \
+          --coverage-output coverage.cobertura.xml
       
       # Zapisanie wyników i pokrycia jako artefakty
       # Saving results and coverage as artifacts
