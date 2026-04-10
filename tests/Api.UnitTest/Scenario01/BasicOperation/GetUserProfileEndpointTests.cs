@@ -20,7 +20,6 @@ public class GetUserProfileEndpointTests
 
         // Assert
         var badRequestResult = Assert.IsType<BadRequest<ProblemDetails>>(result.Result);
-
         Assert.NotNull(badRequestResult.Value);
         Assert.Equal("Validation error.", badRequestResult.Value.Title);
         Assert.Equal(400, badRequestResult.Value.Status);
