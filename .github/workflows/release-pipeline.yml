@@ -4,7 +4,7 @@ on:
   #  Uruchom automatycznie przy wrzuceniu kodu na gałąź main
   #  Trigger automatically on push to the main branch
   push:
-    branches: [ "master" ]
+    branches: [ "master" , "dev"]
     paths-ignore:
       #- "**.md"
       - "**/Dockerfile"
