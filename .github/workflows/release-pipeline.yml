@@ -4,7 +4,7 @@ on:
   #  Uruchom automatycznie przy wrzuceniu kodu na gałąź main
   #  Trigger automatically on push to the main branch
   push:
-    branches: [ "master" ]
+    branches: [ "master" , "dev"]
     paths-ignore:
       #- "**.md"
       - "**/Dockerfile"
@@ -83,6 +83,12 @@ jobs:
             ${{ github.workspace }}/TestResults/*.trx
             ${{ github.workspace }}/TestResults/*.xml
           retention-days: 14
+            
+      # Natywne generowanie podsumowania za pomocą skryptu
+      # Generating a summary natively using an script
+      - name: Generate github tests summary
+        if: always()
+        run: pwsh ./.github/scripts/generate-test-summary.ps1
   
   # ----------------------------------------------------------------
   #  ETAP 2: Publikacja i weryfikacja (AOT & JIT)
