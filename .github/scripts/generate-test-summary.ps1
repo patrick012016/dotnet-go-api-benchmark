@@ -122,16 +122,16 @@ try {
         }
     }
     
-    # Summary markdown
+# Summary markdown
 
     $markdown = @"
     
-    | Metric | Result |
-    |---|---|
-    | **Code coverage** | **$coverageText** |
-    | **Total tests** | $total |
-    | Passed ✅ | $passed |
-    | Failed ❌ | $failed |
+| Metric | Result |
+|---|---|
+| **Code coverage** | **$coverageText** |
+| **Total tests** | $total |
+| Passed ✅ | $passed |
+| Failed ❌ | $failed |
     
 "@
 
