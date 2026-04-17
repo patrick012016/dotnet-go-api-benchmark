@@ -39,7 +39,8 @@ jobs:
   # ----------------------------------------------------------------
   unit-tests:
     name: Unit tests and code coverage
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     
     steps:
       - name: Checkout code
@@ -75,7 +76,7 @@ jobs:
       # Zapisanie wyników i pokrycia jako artefakty
       # Saving results and coverage as artifacts
       - name: Upload test results artifacts
-        if: always()
+        if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
           name: Test-results-and-coverage
@@ -83,6 +84,7 @@ jobs:
             ${{ github.workspace }}/TestResults/*.trx
             ${{ github.workspace }}/TestResults/*.xml
           retention-days: 14
+          if-no-files-found: warn
             
       # Natywne generowanie podsumowania za pomocą skryptu
       # Generating a summary natively using an script
@@ -97,7 +99,8 @@ jobs:
   publish-verification:
     name: Publish verify (${{ matrix.project }})
     needs: unit-tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     
     strategy:
       #  Macierz sprawia, że GitHub uruchamia to zadanie równolegle dla AOT i JIT
@@ -159,7 +162,8 @@ jobs:
     #  Wymaga, aby etap kompilacji zakończył się sukcesem
     #  Requires the build stage to complete successfully
     needs: publish-verification
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     
     #  Rejestruje to jako "Wdrożenie" na GitHubie
     #  Registers this as a "Deployment" on GitHub
