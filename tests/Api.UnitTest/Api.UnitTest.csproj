@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Api.Jit\Api.Jit.csproj"/>
+        <ProjectReference Include="..\..\src\Api.Aot\Api.Aot.csproj"/>
     </ItemGroup>
 
 </Project>

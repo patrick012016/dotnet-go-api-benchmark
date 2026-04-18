@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Api.Jit.Endpoints.Scenario01.BasicOperation;
+using Api.Aot.Endpoints.Scenario01.BasicOperation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
