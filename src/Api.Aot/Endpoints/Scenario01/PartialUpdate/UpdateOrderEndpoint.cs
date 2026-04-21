@@ -10,7 +10,7 @@ public static class UpdateOrderEndpoint
     {
         var endpointGroup = group.MapGroup("/orders");
 
-        endpointGroup.MapPatch("/{id:int}", HandleAsync)
+        endpointGroup.MapPatch("/{id:int}", UpdateOrderAsync)
             .WithName("PartialUpdateOrder")
             .Accepts<UpdateOrderSwaggerSchema>("application/json")
             .Produces<OrderResponse>()
@@ -20,7 +20,7 @@ public static class UpdateOrderEndpoint
     }
 
     internal static async Task<Results<Ok<OrderResponse>, NotFound, BadRequest<ProblemDetails>, ValidationProblem>>
-        HandleAsync(
+        UpdateOrderAsync(
             int id,
             [FromBody] JsonObject? payload,
             CancellationToken ct)
