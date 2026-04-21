@@ -8,11 +8,13 @@ namespace Api.UnitTest.Scenario01.BasicOperation;
 [ExcludeFromCodeCoverage]
 public class GetUserProfileEndpointTests
 {
-    [Fact]
-    public async Task GetUserProfileAsync_WhenIdIsZeroOrNegative_ShouldReturnBadRequest()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-5)]
+    [InlineData(-5143)]
+    public async Task GetUserProfile_WhenIdIsInvalid_ShouldReturnBadRequest(int invalidId)
     {
         // Arrange
-        int invalidId = -5;
         using var cts = new CancellationTokenSource();
 
         // Act
@@ -26,7 +28,7 @@ public class GetUserProfileEndpointTests
     }
 
     [Fact]
-    public async Task GetUserProfileAsync_WhenIdIs999_ShouldReturnNotFound()
+    public async Task GetUserProfile_WhenUserDoesNotExist_ShouldReturnNotFound()
     {
         // Arrange
         int notFoundId = 999;
@@ -40,7 +42,7 @@ public class GetUserProfileEndpointTests
     }
 
     [Fact]
-    public async Task GetUserProfileAsync_WhenIdIsValid_ShouldReturnOkWithProfile()
+    public async Task GetUserProfile_WhenIdIsValid_ShouldReturnOkWithProfile()
     {
         // Arrange
         int validId = 42;
