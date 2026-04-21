@@ -24,14 +24,17 @@ public class UpdateOrderEndpointTests
         Assert.Equal("Missing Body", badRequest.Value.Title);
     }
 
-    [Fact]
-    public async Task UpdateOrder_WhenIdIsInvalid_ShouldReturnBadRequest()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-5)]
+    [InlineData(-5143)]
+    public async Task UpdateOrder_WhenIdIsInvalid_ShouldReturnBadRequest(int invalidId)
     {
         // Arrange
         using var cts = new CancellationTokenSource();
 
         // Act
-        var result = await UpdateOrderEndpoint.UpdateOrderAsync(0, new JsonObject(), cts.Token);
+        var result = await UpdateOrderEndpoint.UpdateOrderAsync(invalidId, new JsonObject(), cts.Token);
 
         // Assert
         var badRequest = Assert.IsType<BadRequest<ProblemDetails>>(result.Result);
@@ -43,10 +46,10 @@ public class UpdateOrderEndpointTests
     public async Task UpdateOrder_WhenOrderDoesNotExist_ShouldReturnNotFound()
     {
         // Arrange
+        using var cts = new CancellationTokenSource();
         int notFoundId = 999;
 
         // Act
-        using var cts = new CancellationTokenSource();
         var result = await UpdateOrderEndpoint.UpdateOrderAsync(notFoundId, new JsonObject(), cts.Token);
 
         // Assert
@@ -54,16 +57,20 @@ public class UpdateOrderEndpointTests
     }
 
     // Method providing data for testing method
-    public static IEnumerable<object[]> InvalidPayloadsData()
+    public static TheoryData<JsonObject, string> InvalidPayloadsData()
     {
-        yield return [new JsonObject { ["status"] = string.Empty, ["totalValue"] = 122m }, "status"];
-        yield return [new JsonObject { ["status"] = "SHIPPED", ["totalValue"] = null }, "totalValue"];
-        yield return [new JsonObject { ["status"] = "SHIPPED", ["totalValue"] = "test" }, "totalValue"];
-        yield return [new JsonObject { ["status"] = 122, ["totalValue"] = 12m }, "status"];
+        var data = new TheoryData<JsonObject, string>();
+
+        data.Add(new JsonObject { ["status"] = string.Empty, ["totalValue"] = 122m }, "status");
+        data.Add(new JsonObject { ["status"] = "SHIPPED", ["totalValue"] = null }, "totalValue");
+        data.Add(new JsonObject { ["status"] = "SHIPPED", ["totalValue"] = "test" }, "totalValue");
+        data.Add(new JsonObject { ["status"] = 122, ["totalValue"] = 12m }, "status");
 
         // Testing cases with multiple errors at once
-        yield return [new JsonObject { ["status"] = null, ["totalValue"] = "not_a_number" }, "status"];
-        yield return [new JsonObject { ["status"] = null, ["totalValue"] = "not_a_number" }, "totalValue"];
+        data.Add(new JsonObject { ["status"] = null, ["totalValue"] = "not_a_number" }, "status");
+        data.Add(new JsonObject { ["status"] = null, ["totalValue"] = "not_a_number" }, "totalValue");
+
+        return data;
     }
 
     [Theory]
@@ -79,8 +86,7 @@ public class UpdateOrderEndpointTests
 
         // Assert
         var validationProblem = Assert.IsType<ValidationProblem>(result.Result);
-        Assert.True(validationProblem.ProblemDetails.Errors.ContainsKey(expectedErrorField),
-            $"Oczekiwano błędu walidacji dla pola: '{expectedErrorField}', ale go nie znaleziono.");
+        Assert.True(validationProblem.ProblemDetails.Errors.ContainsKey(expectedErrorField));
     }
 
     [Fact]
