@@ -7,12 +7,12 @@ public static class ConcurrencyEndpoint
 {
     public static void MapConcurrencyTasks(this RouteGroupBuilder group)
     {
-        group.MapGet("/concurrent-tasks", HandleAsync)
+        group.MapGet("/concurrent-tasks", ConcurrencyAsync)
             .WithName("StarvationConcurrentTasks")
             .Produces<StarvationResponse>();
     }
 
-    internal static async Task<Results<Ok<StarvationResponse>, ProblemHttpResult>> HandleAsync(CancellationToken ct)
+    internal static async Task<Results<Ok<StarvationResponse>, ProblemHttpResult>> ConcurrencyAsync(CancellationToken ct)
     {
         var sw = Stopwatch.StartNew();
 
